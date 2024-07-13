@@ -185,7 +185,11 @@ bool TitleInfo::ParseWuaTitleFolderName(std::string_view name, TitleId& titleIdO
 bool TitleInfo::DetectFormat(const fs::path& path, fs::path& pathOut, TitleDataFormat& formatOut)
 {
 	std::error_code ec;
+#if __ANDROID__
+	if (path.has_extension() && FilesystemAndroid::isFile(path))
+#else
 	if (path.has_extension() && cemu::fs::is_file(path, ec))
+#endif
 	{
 		std::string filenameStr = _pathToUtf8(path.filename());
 		if (boost::iends_with(filenameStr, ".rpx"))
