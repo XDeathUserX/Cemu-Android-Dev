@@ -267,6 +267,22 @@ void CafeTitleList::AddTitleFromPath(fs::path path)
 		delete titleInfo;
 }
 
+TitleId CafeTitleList::GetTitleIdFromPath(fs::path path)
+{
+	std::unique_lock _lock(sTLMutex);
+	for (auto& it : sTLList)
+	{
+		auto listedName = it->GetPath().filename();
+		auto currentName = path.filename();
+		// Compares only the file name, not the entire path, but there shouldn't be
+		// two games with same name and extension
+		if (listedName == currentName)
+			return it->GetAppTitleId();
+	}
+
+	return 0;
+}
+
 bool CafeTitleList::RefreshWorkerThread()
 {
 	SetThreadName("TitleListWorker");

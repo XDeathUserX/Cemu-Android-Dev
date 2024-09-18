@@ -612,3 +612,9 @@ Java_info_cemu_Cemu_NativeLibrary_setMotionEnabled([[maybe_unused]] JNIEnv* env,
 {
 	s_emulationState.setMotionEnabled(motionEnabled);
 }
+
+extern "C" JNIEXPORT jlong JNICALL
+Java_info_cemu_Cemu_NativeLibrary_getTitleIdFromPath(JNIEnv* env, [[maybe_unused]] jclass clazz, jstring uri)
+{
+  return CafeTitleList::GetTitleIdFromPath(fs::path(JNIUtils::JStringToString(env, uri)));
+}

@@ -1,5 +1,7 @@
 package info.cemu.Cemu.emulation;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -11,6 +13,7 @@ import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import info.cemu.Cemu.NativeLibrary;
 import info.cemu.Cemu.R;
 import info.cemu.Cemu.databinding.ActivityEmulationBinding;
 import info.cemu.Cemu.input.InputManager;
@@ -40,9 +43,13 @@ public class EmulationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        Uri data = intent.getData();
         if (extras != null) {
             gameTitleId = extras.getLong(GAME_TITLE_ID);
+        } else if (data != null) {
+            gameTitleId = NativeLibrary.getTitleIdFromPath(data.toString());
         }
         setFullscreen();
         binding = ActivityEmulationBinding.inflate(getLayoutInflater());

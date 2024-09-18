@@ -24,7 +24,16 @@
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="userLandscape"
-            tools:ignore="DiscouragedApi" />
+            tools:ignore="DiscouragedApi"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:mimeType="application/octet-stream"
+                    android:scheme="content" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".settings.SettingsActivity"
             android:exported="false"
